@@ -44,5 +44,7 @@
           touch $out
         '';
       });
+
+	packages = forAllSystem ( { pkgs } : { server = builtins.import ./services/server { inherit pkgs ; } ;
     };
 }
