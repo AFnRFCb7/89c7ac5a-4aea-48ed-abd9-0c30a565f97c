@@ -15,8 +15,14 @@
                                                     {
                                                         "${ config.trump5000.services.server.name}" =
                                                             {
-
-                                                            }
+                                                                after = [ "network.target" ] ;
+                                                                serviceConfig =
+                                                                    {
+                                                                        ExecStart = "" ;
+                                                                        User = "" ;
+                                                                    } ;
+                                                                wantedBy = [ "multi-user.target" ] ;
+                                                            } ;
                                                     } ;
                                             } ;
 			                        } ;
