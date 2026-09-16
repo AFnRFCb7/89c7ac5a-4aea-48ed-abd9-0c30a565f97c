@@ -28,6 +28,7 @@
             docker
             docker-compose
             postgresql
+	    emacs
           ];
 
           shellHook = ''
@@ -45,6 +46,25 @@
         '';
       });
 
-	packages = forAllSystem ( { pkgs } : { server = builtins.import ./services/server { inherit pkgs ; } ;
-    };
+
+	packages = forAllSystems ({ pkgs }: {
+	  server = import ./services/server { inherit pkgs; };
+	});
+
+	lib = {
+	    implementation =
+	    		   { } : { ... } :
+			     {
+				systemd =
+					{
+						services =
+							 {
+								
+							 } ;
+					} ;
+			     } ;
+	    checks = null ;
+	} ;
+   } ;
+
 }
