@@ -5,78 +5,65 @@
 	        lib =
 	            {
 	                implementation =
-	    		        { } : { config , lib , pkgs , ... } :
-			                {
-			                    config =
-			                        {
-                                        systemd =
+	    		        { lazy-shell-application } : { config , lib , pkgs , ... } :
+	    		            let
+	    		                parameters =
+	    		                    {
+	    		                        lazy-shell-application = lazy-shell-application ;
+	    		                    } ;
+                                in
+                                    {
+                                        config =
                                             {
-                                                after = [ "network.target" ] ;
-                                                services =
+                                                systemd =
                                                     {
-                                                        "${ config.trump5000.services.server.name}" =
+                                                        after = [ "network.target" ] ;
+                                                        services =
                                                             {
-                                                                after = [ "network.target" ] ;
-                                                                serviceConfig =
+                                                                "${ config.trump5000.services.server.name}" =
                                                                     {
-                                                                        ExecStart =
-                                                                            let
-                                                                                application =
-                                                                                    pkgs.writeShellApplication
-                                                                                        {
-                                                                                            name = "ExecStart" ;
-                                                                                            runtimeInputs =
-                                                                                                [
-                                                                                                    (
-                                                                                                        pkgs.buildFSHUserEnv
-                                                                                                            {
-                                                                                                                name = "ExecStart" ;
-                                                                                                                targetPkgs =
-                                                                                                                    pkgs :
-                                                                                                                        [
-                                                                                                                            (
-                                                                                                                                pkgs.writeShellApplication
-                                                                                                                                    {
-                                                                                                                                        name = "ExecStart" ;
-                                                                                                                                        runtimeInputs = [ ] ;
-                                                                                                                                        text =
-                                                                                                                                            ''
-                                                                                                                                            '' ;
-                                                                                                                                    }
-                                                                                                                            )
-                                                                                                                        ] ;
-                                                                                                                runScript = "ExecStart" ;
-                                                                                                            }
-                                                                                                    )
-                                                                                                ] ;
-                                                                                            text = "ExecStart" ;
-                                                                                        } ;
-                                                                                in "${ application }/bin/ExecStart" ;
-                                                                        User = config.trump5000.services.server ;
+                                                                        after = [ "network.target" ] ;
+                                                                        serviceConfig =
+                                                                            {
+                                                                                ExecStart =
+                                                                                    let
+                                                                                        application =
+                                                                                            lazy-shell-application
+                                                                                                {
+                                                                                                    runtime-inputs =
+                                                                                                        pkgs :
+                                                                                                            [
+                                                                                                            ] ;
+                                                                                                    text =
+                                                                                                        ''
+                                                                                                        '' ;
+                                                                                                } ;
+                                                                                        in "${ application }/bin/application" ;
+                                                                                User = config.trump5000.services.server ;
+                                                                            } ;
+                                                                        wantedBy = [ "multi-user.target" ] ;
                                                                     } ;
-                                                                wantedBy = [ "multi-user.target" ] ;
                                                             } ;
                                                     } ;
                                             } ;
-			                        } ;
-                                options =
-                                    {
-                                        trump5000 =
+                                        options =
                                             {
-                                                enable = lib.mkOption { default = true ; type = lib.types.bool ; } ;
-                                                services =
+                                                trump5000 =
                                                     {
-                                                        server =
+                                                        enable = lib.mkOption { default = true ; type = lib.types.bool ; } ;
+                                                        services =
                                                             {
-                                                                enable = lib.mkOption { default = true ; type = lib.types.bool ; } ;
-                                                                name = lib.mkOption { default = "server" ; type = lib.types.str ; } ;
-                                                                user = lib.mkOption { type = lib.types.str ; } ;
+                                                                server =
+                                                                    {
+                                                                        enable = lib.mkOption { default = true ; type = lib.types.bool ; } ;
+                                                                        name = lib.mkOption { default = "server" ; type = lib.types.str ; } ;
+                                                                        user = lib.mkOption { type = lib.types.str ; } ;
+                                                                    } ;
                                                             } ;
                                                     } ;
                                             } ;
                                     } ;
-			                } ;
-	                checks = null ;
-	            } ;
-        } ;
+                            checks = null ;
+                        } ;
+                } ;
 }
