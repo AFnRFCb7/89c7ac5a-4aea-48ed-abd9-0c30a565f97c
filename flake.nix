@@ -34,13 +34,63 @@
                                                                                                         lazy-shell-application
                                                                                                             {
                                                                                                                 name = "application" ;
-                                                                                                                runtime-inputs =
-                                                                                                                    pkgs :
-                                                                                                                        [
-                                                                                                                        ] ;
+                                                                                                                runtime-inputs = pkgs : [ pkgs.nodejs ] ;
                                                                                                                 text =
-                                                                                                                    ''
-                                                                                                                    '' ;
+                                                                                                                    let
+                                                                                                                        server =
+                                                                                                                            builtins.toFile
+                                                                                                                                "server.js"
+                                                                                                                                ''
+                                                                                                                                    const express = require("express") ;
+                                                                                                                                    const app = express() ;
+                                                                                                                                    const port = 3000 ;
+                                                                                                                                    app.get("/hello", (request, response) =>
+                                                                                                                                        {
+                                                                                                                                            const name = request.query.name || "world" ;
+                                                                                                                                            response.send( `hi ${name}`) ;
+                                                                                                                                        } ) ;
+                                                                                                                                    app.listen( port, () => { console.log(`listening on port ${port}`) ; } ) ;
+                                                                                                                                '' ;
+                                                                                                                        in
+                                                                                                                            ''
+                                                                                                                                node ${ server }
+                                                                                                                            '' ;
+                                                                                                            } ;
+                                                                                                    in "${ application }/bin/application" ;
+                                                                                            User = config.trump5000.services.server.user ;
+                                                                                        } ;
+                                                                                    wantedBy = [ "multi-user.target" ] ;
+                                                                                } ;
+                                                                    } ;
+                                                    } ;
+                                            } ;
+                                        options =
+                                            {
+                                                trump5000 =
+                                                    {
+                                                        services =
+                                                            {
+                                                                enable = lib.mkOption { default = true ; type = lib.types.bool ; } ;
+                                                                server =
+                                                                    {
+                                                                        enable = lib.mkOption { default = true ; type = lib.types.bool ; } ;
+                                                                        name = lib.mkOption { default = "server" ; type = lib.types.str ; } ;
+                                                                        user = lib.mkOption { type = lib.types.str ; } ;
+                                                                    } ;
+                                                            } ;
+                                                    } ;
+                                            } ;
+                                    } ;
+                            checks = null ;
+                        } ;
+                } ;
+}
+
+                                                                                                                                '' ;
+                                                                                                                        in
+                                                                                                                            ''
+                                                                                                                                node ${ server }
+                                                                                                                            '' ;
                                                                                                             } ;
                                                                                                     in "${ application }/bin/application" ;
                                                                                             User = config.trump5000.services.server.user ;
