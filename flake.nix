@@ -17,42 +17,46 @@
                                             {
                                                 systemd =
                                                     {
-                                                        after = [ "network.target" ] ;
                                                         services =
-                                                            {
-                                                                "${ config.trump5000.services.server.name}" =
+                                                            lib.mkIf
+                                                                config.trump5000.services.enable
                                                                     {
-                                                                        after = [ "network.target" ] ;
-                                                                        serviceConfig =
-                                                                            {
-                                                                                ExecStart =
-                                                                                    let
-                                                                                        application =
-                                                                                            lazy-shell-application
-                                                                                                {
-                                                                                                    runtime-inputs =
-                                                                                                        pkgs :
-                                                                                                            [
-                                                                                                            ] ;
-                                                                                                    text =
-                                                                                                        ''
-                                                                                                        '' ;
-                                                                                                } ;
-                                                                                        in "${ application }/bin/application" ;
-                                                                                User = config.trump5000.services.server ;
-                                                                            } ;
-                                                                        wantedBy = [ "multi-user.target" ] ;
+                                                                        ${ config.trump5000.services.server.name } =
+                                                                            lib.mkIf
+                                                                                config.trump5000.services.server.enable
+                                                                                {
+                                                                                    after = [ "network.target" ] ;
+                                                                                    serviceConfig =
+                                                                                        {
+                                                                                            ExecStart =
+                                                                                                let
+                                                                                                    application =
+                                                                                                        lazy-shell-application
+                                                                                                            {
+                                                                                                                name = "application" ;
+                                                                                                                runtime-inputs =
+                                                                                                                    pkgs :
+                                                                                                                        [
+                                                                                                                        ] ;
+                                                                                                                text =
+                                                                                                                    ''
+                                                                                                                    '' ;
+                                                                                                            } ;
+                                                                                                    in "${ application }/bin/application" ;
+                                                                                            User = config.trump5000.services.server.user ;
+                                                                                        } ;
+                                                                                    wantedBy = [ "multi-user.target" ] ;
+                                                                                } ;
                                                                     } ;
-                                                            } ;
                                                     } ;
                                             } ;
                                         options =
                                             {
                                                 trump5000 =
                                                     {
-                                                        enable = lib.mkOption { default = true ; type = lib.types.bool ; } ;
                                                         services =
                                                             {
+                                                                enable = lib.mkOption { default = true ; type = lib.types.bool ; } ;
                                                                 server =
                                                                     {
                                                                         enable = lib.mkOption { default = true ; type = lib.types.bool ; } ;
