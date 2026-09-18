@@ -5,7 +5,10 @@
 	        lib =
 	            {
 	                implementation =
-	    		        { lazy-shell-application } : { config , lib , pkgs , ... } :
+	    		        {
+	    		            failure ,
+	    		            lazy-shell-application
+                        } : { config , lib , pkgs , ... } :
 	    		            let
 	    		                parameters =
 	    		                    {
