@@ -133,7 +133,7 @@
                                                                             check-parameters.test-setup
                                                                                 [
                                                                                     ''${ check-parameters.client }.wait_for_unit("trump5000-server.service")''
-                                                                                    ''${ check-parameters.client }.wait_for_open_port(5000)''
+                                                                                    ''${ check-parameters.client }.wait_for_open_port(3000)''
                                                                                 ]
                                                                         ] ;
                                                                 writeShellApplication = check-parameters.writeShellApplication ;
