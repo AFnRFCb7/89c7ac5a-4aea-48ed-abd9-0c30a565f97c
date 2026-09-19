@@ -142,10 +142,7 @@
                                                                 mounts = { } ;
                                                                 name = "trump5000" ;
                                                                 runtime-inputs = pkgs : [ pkgs.coreutils pkgs.curl ] ;
-                                                                text =
-                                                                    ''
-                                                                        curl http://127.0.0.1:3000/hello?name=4646461779242742
-                                                                    '' ;
+                                                                text = "curl http://127.0.0.1:3000/hello?name=4646461779242742" ;
                                                             }
                                                             {
                                                                 arguments = [ ] ;
