@@ -78,7 +78,7 @@
                                                                     server =
                                                                         {
                                                                             enable = lib.mkOption { default = true ; type = lib.types.bool ; } ;
-                                                                            name = lib.mkOption { default = "server" ; type = lib.types.str ; } ;
+                                                                            name = lib.mkOption { default = "trump5000-server" ; type = lib.types.str ; } ;
                                                                         } ;
                                                                 } ;
                                                         } ;
