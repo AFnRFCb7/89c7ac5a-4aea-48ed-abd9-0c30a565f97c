@@ -24,19 +24,22 @@
                                                             lib.mkIf
                                                                 config.trump5000.services.enable
                                                                     {
-                                                                        ${ config.trump5000.services.server.name } =
+                                                                        server =
                                                                             lib.mkIf
                                                                                 config.trump5000.services.server.enable
                                                                                 {
                                                                                     after = [ "network.target" ] ;
+                                                                                    name = config.trump5000.services.server.name ;
                                                                                     serviceConfig =
                                                                                         {
+                                                                                            DynamicUser = true ;
                                                                                             ExecStart =
                                                                                                 let
                                                                                                     application =
                                                                                                         lazy-shell-application
                                                                                                             {
                                                                                                                 name = "application" ;
+                                                                                                                mounts = { } ;
                                                                                                                 runtime-inputs = pkgs : [ pkgs.nodejs ] ;
                                                                                                                 text =
                                                                                                                     let
@@ -60,7 +63,6 @@
                                                                                                                             '' ;
                                                                                                             } ;
                                                                                                     in "${ application }/bin/application" ;
-                                                                                            User = config.trump5000.services.server.user ;
                                                                                         } ;
                                                                                     wantedBy = [ "multi-user.target" ] ;
                                                                                 } ;
@@ -78,7 +80,6 @@
                                                                     {
                                                                         enable = lib.mkOption { default = true ; type = lib.types.bool ; } ;
                                                                         name = lib.mkOption { default = "server" ; type = lib.types.str ; } ;
-                                                                        user = lib.mkOption { type = lib.types.str ; } ;
                                                                     } ;
                                                             } ;
                                                     } ;
@@ -89,38 +90,3 @@
                 } ;
 }
 
-                                                                                                                                '' ;
-                                                                                                                        in
-                                                                                                                            ''
-                                                                                                                                node ${ server }
-                                                                                                                            '' ;
-                                                                                                            } ;
-                                                                                                    in "${ application }/bin/application" ;
-                                                                                            User = config.trump5000.services.server.user ;
-                                                                                        } ;
-                                                                                    wantedBy = [ "multi-user.target" ] ;
-                                                                                } ;
-                                                                    } ;
-                                                    } ;
-                                            } ;
-                                        options =
-                                            {
-                                                trump5000 =
-                                                    {
-                                                        services =
-                                                            {
-                                                                enable = lib.mkOption { default = true ; type = lib.types.bool ; } ;
-                                                                server =
-                                                                    {
-                                                                        enable = lib.mkOption { default = true ; type = lib.types.bool ; } ;
-                                                                        name = lib.mkOption { default = "server" ; type = lib.types.str ; } ;
-                                                                        user = lib.mkOption { type = lib.types.str ; } ;
-                                                                    } ;
-                                                            } ;
-                                                    } ;
-                                            } ;
-                                    } ;
-                            checks = null ;
-                        } ;
-                } ;
-}
