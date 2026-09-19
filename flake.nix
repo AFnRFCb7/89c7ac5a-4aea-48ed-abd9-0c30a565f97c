@@ -151,12 +151,19 @@
                                                                     builtins.concatLists
                                                                         [
                                                                             check-parameters.test-setup
-                                                                            [
-                                                                                ''client.wait_for_unit("multi-user.target")''
-                                                                                ''client.wait_for_unit("trump5000-server.service")''
-                                                                                ''client.systemctl("status trump5000-server.service")''
-                                                                                ''client.succeed("ss -lntp")''
-                                                                            ]
+                                                                                [
+                                                                                    ''client.wait_for_unit("multi-user.target")''
+                                                                                    ''client.wait_for_unit("trump5000-server.service")''
+                                                                                    ''client.systemctl("status trump5000-server.service")''
+                                                                                    ''print(client.succeed("ss -lntp"))''
+                                                                                    ''print(client.succeed("systemctl status trump5000-server.service"))''
+                                                                                    ''
+                                                                                        print(client.succeed(
+                                                                                            "systemctl show trump5000-server.service "
+                                                                                            "-p ActiveState -p SubState -p MainPID -p ExecMainStatus"
+                                                                                        ))
+                                                                                    ''
+                                                                                ]
                                                                         ] ;
                                                                 writeShellApplication = check-parameters.writeShellApplication ;
                                                             }
