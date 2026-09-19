@@ -61,7 +61,7 @@
                                                                                                                     runtime-inputs = pkgs : [ pkgs.nodejs ] ;
                                                                                                                     text =
                                                                                                                         ''
-                                                                                                                            node ${ server }
+                                                                                                                            node server.js
                                                                                                                         '' ;
                                                                                                                 } ;
                                                                                                         in "${ application }/bin/application" ;
