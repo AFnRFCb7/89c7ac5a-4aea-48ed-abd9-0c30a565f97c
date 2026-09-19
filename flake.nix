@@ -3,14 +3,18 @@
     outputs = { self } :
 	    {
 	        lib =
-	            { failure , lazy-shell-application } :
-                    {
+	            {
+	                lazy-shell-application
+                } :
+                    let
                         implementation =
                             { config , lib , pkgs , ... } :
                                 let
-                                    parameters =
+                                    implementation-parameters =
                                         {
-                                            lazy-shell-application = lazy-shell-application ;
+                                            config = config ;
+                                            lib = lib ;
+                                            pkgs = pkgs ;
                                         } ;
                                     in
                                         {
@@ -19,22 +23,22 @@
                                                     systemd =
                                                         {
                                                             services =
-                                                                lib.mkIf
-                                                                    config.trump5000.services.enable
+                                                                implementation-parameters.lib.mkIf
+                                                                    implementation-parameters.config.trump5000.services.enable
                                                                         {
                                                                             trump5000-server =
-                                                                                lib.mkIf
-                                                                                    config.trump5000.services.server.enable
+                                                                                implementation-parameters.lib.mkIf
+                                                                                    implementation-parameters.config.trump5000.services.server.enable
                                                                                     {
                                                                                         after = [ "network.target" ] ;
-                                                                                        name = "${ config.trump5000.services.server.name }.service" ;
+                                                                                        name = "${ implementation-parameters.config.trump5000.services.server.name }.service" ;
                                                                                         serviceConfig =
                                                                                             {
                                                                                                 DynamicUser = true ;
                                                                                                 ExecStart =
                                                                                                     let
                                                                                                         application =
-                                                                                                            lazy-shell-application
+                                                                                                            root-parameters.lazy-shell-application
                                                                                                                 {
                                                                                                                     name = "application" ;
                                                                                                                     mounts = { } ;
@@ -93,17 +97,54 @@
                                                         {
                                                             services =
                                                                 {
-                                                                    enable = lib.mkOption { default = true ; type = lib.types.bool ; } ;
+                                                                    enable = implementation-parameters.lib.mkOption { default = true ; type = lib.types.bool ; } ;
                                                                     server =
                                                                         {
-                                                                            enable = lib.mkOption { default = true ; type = lib.types.bool ; } ;
-                                                                            name = lib.mkOption { default = "trump5000-server" ; type = lib.types.str ; } ;
+                                                                            enable = implementation-parameters.lib.mkOption { default = true ; type = lib.types.bool ; } ;
+                                                                            name = implementation-parameters.lib.mkOption { default = "trump5000-server" ; type = lib.types.str ; } ;
                                                                         } ;
                                                                 } ;
                                                         } ;
                                                 } ;
                                         } ;
-                                checks = null ;
+                                root-parameters =
+                                    {
+                                        lazy-shell-application = lazy-shell-application ;
+                                    } ;
+                                in
+                                    {
+                                        check =
+                                            lazy-shell-application :
+                                            {
+                                                client ,
+                                                coreutils ,
+                                                curl ,
+                                                nixosTest ,
+                                                nodes ,
+                                                order ,
+                                                test-setup
+                                            } :
+                                            { } :
+                                                let
+                                                    check-parameters =
+                                                        {
+                                                            client = client ;
+                                                            coreutils = coreutils ;
+                                                            curl = curl ;
+                                                            lazy-shell-application = lazy-shell-application ;
+                                                            nixosTest = nixosTest ;
+                                                            nodes = nodes ;
+                                                            order = order ;
+                                                            test-setup = test-setup ;
+                                                        } ;
+                                                    value = check-parameters ( builtins.removeAttrs check-parameters [ "lazy-shell-application" ] ) ;
+                                                    in
+                                                        {
+                                                            name = builtins.concatStringsSep "-" [ "check" ( builtins.toString check-parameters.order ) ] ;
+                                                            order = check-parameters.order ;
+                                                            value = dependencies : nixos-test ;
+                                                        } ;
+                                    } ;
                             } ;
                     } ;
 }
