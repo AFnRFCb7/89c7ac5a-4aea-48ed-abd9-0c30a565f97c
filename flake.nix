@@ -35,54 +35,34 @@
                                                                                         serviceConfig =
                                                                                             {
                                                                                                 DynamicUser = true ;
+                                                                                                ExecStartPre =
+                                                                                                    let
+                                                                                                        application =
+                                                                                                            root-parameters.lazy-shell-application
+                                                                                                                {
+                                                                                                                    name = "ExecStartPre" ;
+                                                                                                                    mounts = { } ;
+                                                                                                                    post = null ;
+                                                                                                                    runtime-inputs = pkgs : [ pkgs.nodejs ] ;
+                                                                                                                    text =
+                                                                                                                        ''
+                                                                                                                            tar -xJf ${ self }/express.tar.xz
+                                                                                                                        '' ;
+                                                                                                                } ;
+                                                                                                        in "${ application }/bin/ExecStart" ;
                                                                                                 ExecStart =
                                                                                                     let
                                                                                                         application =
                                                                                                             root-parameters.lazy-shell-application
                                                                                                                 {
-                                                                                                                    name = "application" ;
+                                                                                                                    name = "ExecStart" ;
                                                                                                                     mounts = { } ;
                                                                                                                     post = null ;
                                                                                                                     runtime-inputs = pkgs : [ pkgs.nodejs ] ;
                                                                                                                     text =
-                                                                                                                        let
-                                                                                                                            package =
-                                                                                                                                {
-                                                                                                                                    name = "tmp.igznjft05g" ;
-                                                                                                                                    version = "1.0.0" ;
-                                                                                                                                    description = "" ;
-                                                                                                                                    main = "index.js" ;
-                                                                                                                                    scripts =
-                                                                                                                                        {
-                                                                                                                                            test = "echo \"Error: no test specified\" && exit 1" ;
-                                                                                                                                        } ;
-                                                                                                                                    author = "" ;
-                                                                                                                                    license = "ISC" ;
-                                                                                                                                    dependencies =
-                                                                                                                                        {
-                                                                                                                                            express = "^5.2.1" ;
-                                                                                                                                        } ;
-                                                                                                                                } ;
-                                                                                                                            server =
-                                                                                                                                builtins.toFile
-                                                                                                                                    "server.js"
-                                                                                                                                    ''
-                                                                                                                                        const express = require("express") ;
-                                                                                                                                        const app = express() ;
-                                                                                                                                        const port = 3000 ;
-                                                                                                                                        app.get("/hello", (request, response) =>
-                                                                                                                                            {
-                                                                                                                                                const name = request.query.name || "world" ;
-                                                                                                                                                response.send( `hi ${ "$" }{ name }`) ;
-                                                                                                                                            } ) ;
-                                                                                                                                        app.listen( port, () => { console.log(`listening on port ${ "$" }{ port }`) ; } ) ;
-                                                                                                                                    '' ;
-                                                                                                                            in
-                                                                                                                                ''
-                                                                                                                                    ln --symbolic ${ builtins.toFile "package.json" ( builtins.toJSON package ) } package.json
-                                                                                                                                    npm install
-                                                                                                                                    node ${ server }
-                                                                                                                                '' ;
+                                                                                                                        ''
+                                                                                                                            node ${ server }
+                                                                                                                        '' ;
                                                                                                                 } ;
                                                                                                         in "${ application }/bin/application" ;
                                                                                             } ;
@@ -173,7 +153,6 @@
                                                                 runtime-inputs = pkgs : [ pkgs.coreutils pkgs.curl ] ;
                                                                 text =
                                                                     ''
-                                                                        sleep 50s
                                                                         curl http://127.0.0.1:3000/hello?name=4646461779242742
                                                                     '' ;
                                                             }
