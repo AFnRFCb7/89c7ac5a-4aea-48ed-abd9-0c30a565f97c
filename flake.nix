@@ -144,8 +144,8 @@
                                                             order = check-parameters.order ;
                                                             value = dependencies : nixos-test ;
                                                         } ;
+                                        implementation = implementation ;
                                     } ;
-                            } ;
-                    } ;
+        } ;
 }
 
