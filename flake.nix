@@ -132,17 +132,8 @@
                                                                         [
                                                                             check-parameters.test-setup
                                                                                 [
-                                                                                    ''client.wait_for_unit("multi-user.target")''
                                                                                     ''client.wait_for_unit("trump5000-server.service")''
-                                                                                    ''client.systemctl("status trump5000-server.service")''
-                                                                                    ''print(client.succeed("ss -lntp"))''
-                                                                                    ''print(client.succeed("systemctl status trump5000-server.service"))''
-                                                                                    ''
-                                                                                        print(client.succeed(
-                                                                                            "systemctl show trump5000-server.service "
-                                                                                            "-p ActiveState -p SubState -p MainPID -p ExecMainStatus"
-                                                                                        ))
-                                                                                    ''
+                                                                                    ''machine.wait_for_open_port(5000)''
                                                                                 ]
                                                                         ] ;
                                                                 writeShellApplication = check-parameters.writeShellApplication ;
