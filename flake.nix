@@ -42,6 +42,23 @@
                                                                                                                     runtime-inputs = pkgs : [ pkgs.nodejs ] ;
                                                                                                                     text =
                                                                                                                         let
+                                                                                                                            package =
+                                                                                                                                {
+                                                                                                                                    name = "tmp.igznjft05g" ;
+                                                                                                                                    version = "1.0.0" ;
+                                                                                                                                    description = "" ;
+                                                                                                                                    main = "index.js" ;
+                                                                                                                                    scripts =
+                                                                                                                                        {
+                                                                                                                                            test = "echo \"Error: no test specified\" && exit 1"
+                                                                                                                                        } ;
+                                                                                                                                    author = "" ;
+                                                                                                                                    license = "ISC" ;
+                                                                                                                                    dependencies =
+                                                                                                                                        {
+                                                                                                                                            express = "^5.2.1" ;
+                                                                                                                                        } ;
+                                                                                                                                } ;
                                                                                                                             server =
                                                                                                                                 builtins.toFile
                                                                                                                                     "server.js"
@@ -58,6 +75,8 @@
                                                                                                                                     '' ;
                                                                                                                             in
                                                                                                                                 ''
+                                                                                                                                    ln --symbolic ${ builtins.toFile "package.json" ( builtins.toJSON package ) } package.json
+                                                                                                                                    npm install
                                                                                                                                     node ${ server }
                                                                                                                                 '' ;
                                                                                                                 } ;
