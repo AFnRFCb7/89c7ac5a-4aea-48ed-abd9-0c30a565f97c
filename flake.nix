@@ -6,8 +6,7 @@
 	            { failure , lazy-shell-application } :
                     {
                         implementation =
-                            {
-                            } : { config , lib , pkgs , ... } :
+                            { config , lib , pkgs , ... } :
                                 let
                                     parameters =
                                         {
