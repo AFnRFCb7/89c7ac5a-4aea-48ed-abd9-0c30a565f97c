@@ -42,7 +42,7 @@
                                                                                                                     runtime-inputs = pkgs : [ pkgs.nodejs ] ;
                                                                                                                     text =
                                                                                                                         let
-                                                                                                                            server =
+                                                                                                                            trump5000-server =
                                                                                                                                 builtins.toFile
                                                                                                                                     "server.js"
                                                                                                                                     ''
