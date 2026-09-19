@@ -147,7 +147,15 @@
                                                                 nixosTest = check-parameters.nixosTest ;
                                                                 nodes = check-parameters.nodes ;
                                                                 order = check-parameters.order ;
-                                                                test-setup = check-parameters.test-setup ;
+                                                                test-setup =
+                                                                    builtins.concatLists
+                                                                        [
+                                                                            check-parameters.test-setup
+                                                                            [
+                                                                                ''client.wait_for_unit("multi-user.target")''
+                                                                                ''client.wait_for_unit("trump5000-server.service")''
+                                                                            ]
+                                                                        ] ;
                                                                 writeShellApplication = check-parameters.writeShellApplication ;
                                                             }
                                                             {
