@@ -137,13 +137,7 @@
                                                             order = order ;
                                                             test-setup = test-setup ;
                                                         } ;
-                                                    value = check-parameters ( builtins.removeAttrs check-parameters [ "lazy-shell-application" ] ) ;
-                                                    in
-                                                        {
-                                                            name = builtins.concatStringsSep "-" [ "check" ( builtins.toString check-parameters.order ) ] ;
-                                                            order = check-parameters.order ;
-                                                            value = dependencies : nixos-test ;
-                                                        } ;
+                                                    in check-parameters ( builtins.removeAttrs check-parameters [ "lazy-shell-application" ] ) ;
                                         implementation = implementation ;
                                     } ;
         } ;
