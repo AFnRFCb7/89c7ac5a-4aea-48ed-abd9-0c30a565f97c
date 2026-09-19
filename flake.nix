@@ -38,6 +38,7 @@
                                                                                                                 {
                                                                                                                     name = "application" ;
                                                                                                                     mounts = { } ;
+                                                                                                                    post = null ;
                                                                                                                     runtime-inputs = pkgs : [ pkgs.nodejs ] ;
                                                                                                                     text =
                                                                                                                         let
