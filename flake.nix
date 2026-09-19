@@ -164,7 +164,7 @@
                                                                 runtime-inputs = pkgs : [ pkgs.coreutils pkgs.curl ] ;
                                                                 text =
                                                                     ''
-                                                                        sleep 10s
+                                                                        sleep 50s
                                                                         curl http://127.0.0.1:3000/hello?name=4646461779242742
                                                                     '' ;
                                                             }
