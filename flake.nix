@@ -126,7 +126,6 @@
                                                 test-setup ,
                                                 writeShellApplication
                                             } :
-                                            { } :
                                                 let
                                                     check-parameters =
                                                         {
