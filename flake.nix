@@ -118,11 +118,13 @@
                                             {
                                                 client ,
                                                 coreutils ,
+                                                findutils ,
                                                 curl ,
                                                 nixosTest ,
                                                 nodes ,
                                                 order ,
-                                                test-setup
+                                                test-setup ,
+                                                writeShellApplication
                                             } :
                                             { } :
                                                 let
@@ -130,14 +132,43 @@
                                                         {
                                                             client = client ;
                                                             coreutils = coreutils ;
+                                                            findutils = findutils ;
                                                             curl = curl ;
                                                             lazy-shell-application = lazy-shell-application ;
                                                             nixosTest = nixosTest ;
                                                             nodes = nodes ;
                                                             order = order ;
                                                             test-setup = test-setup ;
+                                                            writeShellApplication = writeShellApplication ;
                                                         } ;
-                                                    in check-parameters ( builtins.removeAttrs check-parameters [ "lazy-shell-application" ] ) ;
+                                                    in
+                                                        check-parameters.lazy-shell-application
+                                                            {
+                                                                client = check-parameters.client ;
+                                                                coreutils = check-parameters.coreutils ;
+                                                                findutils = check-parameters.findutils ;
+                                                                nixosTest = check-parameters.nixosTest ;
+                                                                nodes = check-parameters.nodes ;
+                                                                order = check-parameters.order ;
+                                                                test-setup = check-parameters.test-setup ;
+                                                                writeShellApplication = check-parameters.writeShellApplication ;
+                                                            }
+                                                            {
+                                                                mounts = { } ;
+                                                                name = "trump5000" ;
+                                                                runtime-inputs = pkgs : [ pkgs.curl ] ;
+                                                                text =
+                                                                    ''
+                                                                        curl http://127.0.0.1:3000/hello?name=4646461779242742
+                                                                    '' ;
+                                                            }
+                                                            {
+                                                                arguments = [ ] ;
+                                                                standard-error = "" ;
+                                                                standard-input = null ;
+                                                                standard-output = "" ;
+                                                                status = 0 ;
+                                                            } ;
                                         implementation = implementation ;
                                     } ;
         } ;
