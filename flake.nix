@@ -119,7 +119,6 @@
                                                 client ,
                                                 coreutils ,
                                                 findutils ,
-                                                curl ,
                                                 nixosTest ,
                                                 nodes ,
                                                 order ,
@@ -132,7 +131,6 @@
                                                             client = client ;
                                                             coreutils = coreutils ;
                                                             findutils = findutils ;
-                                                            curl = curl ;
                                                             lazy-shell-application = lazy-shell-application ;
                                                             nixosTest = nixosTest ;
                                                             nodes = nodes ;
