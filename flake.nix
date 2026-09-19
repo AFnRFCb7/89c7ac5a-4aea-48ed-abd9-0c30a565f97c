@@ -64,7 +64,7 @@
                                                                                                                             node server.js
                                                                                                                         '' ;
                                                                                                                 } ;
-                                                                                                        in "${ application }/bin/application" ;
+                                                                                                        in "${ application }/bin/ExecStart" ;
                                                                                             } ;
                                                                                         wantedBy = [ "multi-user.target" ] ;
                                                                                     } ;
