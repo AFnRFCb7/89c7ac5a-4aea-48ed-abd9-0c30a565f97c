@@ -53,9 +53,9 @@
                                                                                                                                     app.get("/hello", (request, response) =>
                                                                                                                                         {
                                                                                                                                             const name = request.query.name || "world" ;
-                                                                                                                                            response.send( `hi ${name}`) ;
+                                                                                                                                            response.send( `hi ${ "$" }{ name }`) ;
                                                                                                                                         } ) ;
-                                                                                                                                    app.listen( port, () => { console.log(`listening on port ${port}`) ; } ) ;
+                                                                                                                                    app.listen( port, () => { console.log(`listening on port ${ "$" }{ port }`) ; } ) ;
                                                                                                                                 '' ;
                                                                                                                         in
                                                                                                                             ''
