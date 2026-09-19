@@ -27,7 +27,7 @@
                                                                                     config.trump5000.services.server.enable
                                                                                     {
                                                                                         after = [ "network.target" ] ;
-                                                                                        name = config.trump5000.services.server.name ;
+                                                                                        name = "${ config.trump5000.services.server.name }.service" ;
                                                                                         serviceConfig =
                                                                                             {
                                                                                                 DynamicUser = true ;
