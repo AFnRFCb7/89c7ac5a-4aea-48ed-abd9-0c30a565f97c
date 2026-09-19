@@ -22,7 +22,7 @@
                                                                 lib.mkIf
                                                                     config.trump5000.services.enable
                                                                         {
-                                                                            server =
+                                                                            trump5000-server =
                                                                                 lib.mkIf
                                                                                     config.trump5000.services.server.enable
                                                                                     {
@@ -42,7 +42,7 @@
                                                                                                                     runtime-inputs = pkgs : [ pkgs.nodejs ] ;
                                                                                                                     text =
                                                                                                                         let
-                                                                                                                            trump5000-server =
+                                                                                                                            server =
                                                                                                                                 builtins.toFile
                                                                                                                                     "server.js"
                                                                                                                                     ''
