@@ -49,7 +49,7 @@
                                                                                                                             tar -xJf ${ self }/express.tar.xz
                                                                                                                         '' ;
                                                                                                                 } ;
-                                                                                                        in "${ application }/bin/ExecStart" ;
+                                                                                                        in "${ application }/bin/ExecStartPre" ;
                                                                                                 ExecStart =
                                                                                                     let
                                                                                                         application =
