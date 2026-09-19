@@ -154,6 +154,8 @@
                                                                             [
                                                                                 ''client.wait_for_unit("multi-user.target")''
                                                                                 ''client.wait_for_unit("trump5000-server.service")''
+                                                                                ''client.systemctl("status trump5000-server.service")''
+                                                                                ''client.succeed("ss -lntp")''
                                                                             ]
                                                                         ] ;
                                                                 writeShellApplication = check-parameters.writeShellApplication ;
