@@ -153,7 +153,7 @@
                                                                 arguments = [ ] ;
                                                                 standard-error = "" ;
                                                                 standard-input = null ;
-                                                                standard-output = "hello 4646461779242742" ;
+                                                                standard-output = "hi 4646461779242742" ;
                                                                 status = 0 ;
                                                             } ;
                                         implementation = implementation ;
