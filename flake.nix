@@ -41,12 +41,16 @@
                                                                                                             root-parameters.lazy-shell-application
                                                                                                                 {
                                                                                                                     name = "ExecStartPre" ;
-                                                                                                                    mounts = { } ;
+                                                                                                                    mounts = { trump5000 = { source = "/run/trump5000" ; type = "bind" ; } ; } ;
                                                                                                                     post = null ;
-                                                                                                                    runtime-inputs = pkgs : [ pkgs.nodejs ] ;
+                                                                                                                    runtime-inputs = pkgs : [ pkgs.gnutar pkgs.xz ] ;
                                                                                                                     text =
                                                                                                                         ''
-                                                                                                                            tar -xJf ${ self }/express.tar.xz
+                                                                                                                            tar \
+                                                                                                                                --extract \
+                                                                                                                                --xz \
+                                                                                                                                --file ${ self }/express.tar.xz \
+                                                                                                                                --directory /mounts/trump5000/
                                                                                                                         '' ;
                                                                                                                 } ;
                                                                                                         in "${ application }/bin/ExecStartPre" ;
@@ -56,15 +60,16 @@
                                                                                                             root-parameters.lazy-shell-application
                                                                                                                 {
                                                                                                                     name = "ExecStart" ;
-                                                                                                                    mounts = { } ;
+                                                                                                                    mounts = { trump5000 = { source = "/run/trump5000" ; type = "bind" ; } ; } ;
                                                                                                                     post = null ;
                                                                                                                     runtime-inputs = pkgs : [ pkgs.nodejs ] ;
                                                                                                                     text =
                                                                                                                         ''
-                                                                                                                            node server.js
+                                                                                                                            node /mounts/trump5000/server.js
                                                                                                                         '' ;
                                                                                                                 } ;
                                                                                                         in "${ application }/bin/ExecStart" ;
+                                                                                                RuntimeDirectory = "trump5000" ;
                                                                                             } ;
                                                                                         wantedBy = [ "multi-user.target" ] ;
                                                                                     } ;
