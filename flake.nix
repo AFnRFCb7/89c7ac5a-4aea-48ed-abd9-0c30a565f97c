@@ -103,6 +103,7 @@
                                             {
                                                 client ,
                                                 coreutils ,
+                                                failure ,
                                                 findutils ,
                                                 nixosTest ,
                                                 nodes ,
