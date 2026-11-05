@@ -42,7 +42,7 @@
                                                                                                                 {
                                                                                                                     name = "ExecStartPre" ;
                                                                                                                     mounts = { trump5000 = { source = "/run/trump5000" ; type = "bind" ; } ; } ;
-                                                                                                                    post = null ;
+                                                                                                                    post = [ ] ;
                                                                                                                     runtime-inputs = pkgs : [ pkgs.gnutar pkgs.xz ] ;
                                                                                                                     text =
                                                                                                                         ''
@@ -61,7 +61,7 @@
                                                                                                                 {
                                                                                                                     name = "ExecStart" ;
                                                                                                                     mounts = { trump5000 = { source = "/run/trump5000" ; type = "bind" ; } ; } ;
-                                                                                                                    post = null ;
+                                                                                                                    post = [ ] ;
                                                                                                                     runtime-inputs = pkgs : [ pkgs.nodejs ] ;
                                                                                                                     text =
                                                                                                                         ''
